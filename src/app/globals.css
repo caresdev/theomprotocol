@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   Brand Design Tokens
+
+   Colors are defined as CSS custom properties so theme changes propagate
+   everywhere — components reference tokens, not raw hex values.
+   ============================================================================= */
+
+:root {
+  --om-midnight: #060614;
+  --om-deep-navy: #0a0e24;
+  --om-cosmic-blue: #4a9eff;
+  --om-soft-violet: #8b5cf6;
+  --om-warm-gold: #f59e0b;
+  --om-text-primary: #e0e7ff;
+  --om-text-muted: rgba(180, 210, 255, 0.4);
+}
+
+@theme inline {
+  /* Colors — referencing CSS custom properties */
+  --color-midnight: var(--om-midnight);
+  --color-deep-navy: var(--om-deep-navy);
+  --color-cosmic-blue: var(--om-cosmic-blue);
+  --color-soft-violet: var(--om-soft-violet);
+  --color-warm-gold: var(--om-warm-gold);
+  --color-text-primary: var(--om-text-primary);
+  --color-text-muted: var(--om-text-muted);
+
+  /* Fonts */
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-montserrat);
+
+  /* Custom animations */
+  --animate-fade-up: fadeUp 0.8s ease-out both;
+  --animate-fade-in: fadeIn 1s ease both;
+  --animate-subtle-pulse: subtlePulse 8s ease-in-out infinite;
+  --animate-breathe-in: breatheIn 4s ease-in-out both;
+  --animate-breathe-hold: breatheHold 2s ease both;
+  --animate-breathe-out: breatheOut 6s ease-in-out both;
+  --animate-orb-float: orbFloat 20s ease-in-out infinite;
+}
+
+/* =============================================================================
+   Base Styles
+   ============================================================================= */
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--om-midnight);
+  color: var(--om-text-primary);
+  font-family: var(--font-display), Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================================================
+   Keyframe Animations
+
+   Defined globally so they can be referenced via Tailwind's animate-* utilities
+   and reused across any component.
+   ============================================================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+/* Breathing circle animations — matches the 4-2-6 pattern */
+@keyframes breatheIn {
+  from { transform: scale(0.65); }
+  to { transform: scale(1); }
+}
+
+@keyframes breatheHold {
+  from { transform: scale(1); }
+  to { transform: scale(1); }
+}
+
+@keyframes breatheOut {
+  from { transform: scale(1); }
+  to { transform: scale(0.65); }
+}
+
+/* Floating orb drift — used for ambient background elements */
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(10px, -15px);
+  }
+  50% {
+    transform: translate(-5px, 10px);
+  }
+  75% {
+    transform: translate(8px, 5px);
+  }
+}
+
+/* =============================================================================
+   Accessibility — Reduced Motion
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
