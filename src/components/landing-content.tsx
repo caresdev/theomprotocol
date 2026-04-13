@@ -13,10 +13,10 @@ export default function LandingContent() {
   }, []);
 
   return (
-    <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-6 py-10">
-      {/* Top accent line */}
+    <div className="relative z-10 flex min-h-dvh flex-col items-center justify-center px-8 py-10">
+      {/* Top accent line
       <div
-        className="mb-10 transition-all duration-1200 ease-out"
+        className="mb-6 transition-all duration-1200 ease-out"
         style={{
           opacity: loaded ? 1 : 0,
           transform: loaded ? "translateY(0)" : "translateY(-10px)",
@@ -33,10 +33,10 @@ export default function LandingContent() {
               "linear-gradient(to bottom, transparent, rgba(100,150,255,0.3), transparent)",
           }}
         />
-      </div>
+      </div> */}
 
       {/* Symbol */}
-      <div
+      {/* <div
         className="mb-8 text-4xl select-none"
         style={{
           color: "rgba(100, 150, 255, 0.2)",
@@ -47,11 +47,11 @@ export default function LandingContent() {
         aria-hidden="true"
       >
         &#9678;
-      </div>
+      </div> */}
 
       {/* Title */}
       <h1
-        className="mb-2 text-center font-display font-light"
+        className="mb-2 text-center font-display font-tight"
         style={{
           fontSize: "clamp(36px, 7vw, 72px)",
           letterSpacing: "0.08em",
@@ -70,7 +70,7 @@ export default function LandingContent() {
 
       {/* Subtitle */}
       <p
-        className="mb-12 text-center font-body font-light uppercase"
+        className="mb-6 text-center font-body font-light uppercase"
         style={{
           fontSize: "clamp(12px, 1.8vw, 15px)",
           letterSpacing: "0.15em",
@@ -85,10 +85,10 @@ export default function LandingContent() {
 
       {/* Divider */}
       <div
-        className="mb-10"
+        className="mb-6"
         style={{
-          width: 60,
-          height: 1,
+          width: 80,
+          height: 2,
           background:
             "linear-gradient(to right, transparent, rgba(100,150,255,0.25), transparent)",
           opacity: loaded ? 1 : 0,
@@ -99,7 +99,7 @@ export default function LandingContent() {
 
       {/* Description */}
       <p
-        className="mb-12 max-w-md text-center font-body font-light"
+        className="mb-8 max-w-md text-center font-body font-light"
         style={{
           fontSize: "clamp(13px, 1.5vw, 15px)",
           lineHeight: 1.9,
@@ -116,7 +116,7 @@ export default function LandingContent() {
 
       {/* Breathing interaction */}
       <div
-        className="mb-14 flex flex-col items-center"
+        className="mb-12 flex flex-col items-center"
         style={{
           opacity: loaded ? 1 : 0,
           transition: "opacity 1.5s ease 1.5s",
@@ -167,8 +167,7 @@ export default function LandingContent() {
             label: "YouTube",
             href: "https://www.youtube.com/@theomprotocol",
           },
-          { label: "Instagram", href: "https://instagram.com/theomprotocol" },
-          { label: "X", href: "https://x.com/theomprotocol" },
+          // { label: "Instagram", href: "https://instagram.com/theomprotocol" },
         ].map(({ label, href }) => (
           <a
             key={label}
