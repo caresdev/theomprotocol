@@ -23,7 +23,7 @@ interface BreathingOrbProps {
 }
 
 export default function BreathingOrb({ onComplete }: BreathingOrbProps) {
-  const [phase, setPhase] = useState<Phase>("inhale");
+  const [phase, setPhase] = useState<Phase | null>(null);
   const [count, setCount] = useState(4);
   const [fading, setFading] = useState(false);
 
@@ -68,13 +68,15 @@ export default function BreathingOrb({ onComplete }: BreathingOrbProps) {
     };
   }, [onComplete]);
 
-  const scale = phase === "exhale" ? "scale(0.65)" : "scale(1)";
+  const scale = phase === "inhale" || phase === "hold" ? "scale(1)" : "scale(0.65)";
   const transition =
-    phase === "inhale"
-      ? "transform 4s ease-in-out"
-      : phase === "hold"
-        ? "transform 0.3s"
-        : "transform 6s ease-in-out";
+    phase === null
+      ? "none"
+      : phase === "inhale"
+        ? "transform 4s ease-in-out"
+        : phase === "hold"
+          ? "transform 0.3s"
+          : "transform 6s ease-in-out";
 
   return (
     <div
@@ -101,7 +103,7 @@ export default function BreathingOrb({ onComplete }: BreathingOrbProps) {
       <span
         className="font-body text-[13px] font-normal uppercase tracking-[4px] text-om-text-dim"
       >
-        {PHASE_LABEL[phase]}
+        {phase ? PHASE_LABEL[phase] : PHASE_LABEL.inhale}
       </span>
     </div>
   );
