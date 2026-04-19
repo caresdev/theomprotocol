@@ -89,13 +89,20 @@ export default function CosmicCanvas() {
     const stars = createStars(isMobile ? 150 : 350);
     const particles = createParticles(isMobile ? 12 : 30);
 
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let bgGrad: CanvasGradient | null = null;
+
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bgGrad = null; // invalidate on resize
     };
     resize();
     window.addEventListener("resize", resize);
@@ -105,17 +112,16 @@ export default function CosmicCanvas() {
     const draw = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = (timestamp - startTime) / 1000;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
 
       ctx.clearRect(0, 0, w, h);
 
-      // Background gradient
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, "#060614");
-      grad.addColorStop(0.5, "#0a0e24");
-      grad.addColorStop(1, "#0c142a");
-      ctx.fillStyle = grad;
+      if (!bgGrad) {
+        bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+        bgGrad.addColorStop(0, "#060614");
+        bgGrad.addColorStop(0.5, "#0a0e24");
+        bgGrad.addColorStop(1, "#0c142a");
+      }
+      ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, w, h);
 
       // Stars
@@ -160,9 +166,9 @@ export default function CosmicCanvas() {
         ctx.fill();
       }
 
-      // Sacred geometry rings
+      // Sacred geometry rings — centered on header area (upper ~25%)
       const rcx = w * 0.5;
-      const rcy = h * 0.48;
+      const rcy = h * 0.22;
       const baseSize = Math.min(w, h);
       for (let i = 0; i < RINGS.length; i++) {
         const ringPulse = (Math.sin(elapsed * 0.5 + i * 0.8) + 1) / 2;
@@ -235,7 +241,6 @@ export default function CosmicCanvas() {
 
   return (
     <>
-      {/* Canvas for animated background */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 w-full h-full"

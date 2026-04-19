@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "lite-youtube-embed/src/lite-yt-embed.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -12,6 +13,7 @@
    ============================================================================= */
 
 :root {
+  /* Core palette */
   --om-midnight: #060614;
   --om-deep-navy: #0a0e24;
   --om-cosmic-blue: #4a9eff;
@@ -19,42 +21,75 @@
   --om-warm-gold: #f59e0b;
   --om-text-primary: #e0e7ff;
   --om-text-muted: rgba(180, 210, 255, 0.4);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+
+  /* Extended tokens — opacity variants used across UI */
+  --om-glow: rgba(100, 150, 255, 1);
+  --om-text-bright: rgba(255, 255, 255, 0.95);
+  --om-text-secondary: rgba(180, 210, 255, 0.5);
+  --om-text-dim: rgba(180, 210, 255, 0.3);
+  --om-border-subtle: rgba(100, 150, 255, 0.25);
+
+  /* Glass/overlay tokens — for video player, modals, etc. */
+  --om-glass-bg: rgba(255, 255, 255, 0.1);
+  --om-glass-bg-hover: rgba(255, 255, 255, 0.18);
+  --om-glass-border: rgba(255, 255, 255, 0.15);
+  --om-glass-icon: rgba(255, 255, 255, 0.8);
+
+  /* Subtle border/glow variants */
+  --om-border-faint: rgba(100, 150, 255, 0.12);
+  --om-glow-faint: rgba(74, 158, 255, 0.06);
+  --om-glow-soft: rgba(100, 150, 255, 0.08);
+
+  /* Social link colors */
+  --om-link: rgba(150, 180, 255, 0.45);
+  --om-link-hover: rgba(150, 180, 255, 0.85);
+
+  /* Gradient accents */
+  --om-title-fade: rgba(140, 180, 255, 0.7);
+  --om-overlay-dark: rgba(6, 6, 20, 0.3);
+
+  /* Responsive font sizes */
+  --text-title: clamp(36px, 7vw, 72px);
+  --text-subtitle: clamp(12px, 1.8vw, 15px);
+  --text-body: clamp(13px, 1.5vw, 15px);
+
+  /* Override shadcn base colors with our brand palette */
+  --background: var(--om-midnight);
+  --foreground: var(--om-text-primary);
+  --card: var(--om-deep-navy);
+  --card-foreground: var(--om-text-primary);
+  --popover: var(--om-deep-navy);
+  --popover-foreground: var(--om-text-primary);
+  --primary: var(--om-cosmic-blue);
+  --primary-foreground: var(--om-midnight);
+  --secondary: var(--om-deep-navy);
+  --secondary-foreground: var(--om-text-primary);
+  --muted: var(--om-deep-navy);
+  --muted-foreground: var(--om-text-muted);
+  --accent: var(--om-deep-navy);
+  --accent-foreground: var(--om-text-primary);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: rgba(100, 150, 255, 0.1);
+  --input: rgba(100, 150, 255, 0.15);
+  --ring: var(--om-cosmic-blue);
+  --chart-1: var(--om-cosmic-blue);
+  --chart-2: var(--om-soft-violet);
+  --chart-3: var(--om-warm-gold);
+  --chart-4: var(--om-deep-navy);
+  --chart-5: var(--om-text-dim);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: var(--om-deep-navy);
+  --sidebar-foreground: var(--om-text-primary);
+  --sidebar-primary: var(--om-cosmic-blue);
+  --sidebar-primary-foreground: var(--om-midnight);
+  --sidebar-accent: var(--om-deep-navy);
+  --sidebar-accent-foreground: var(--om-text-primary);
+  --sidebar-border: rgba(100, 150, 255, 0.1);
+  --sidebar-ring: var(--om-cosmic-blue);
 }
 
 @theme inline {
-  /* Colors — referencing CSS custom properties */
+  /* Brand colors */
   --color-midnight: var(--om-midnight);
   --color-deep-navy: var(--om-deep-navy);
   --color-cosmic-blue: var(--om-cosmic-blue);
@@ -62,6 +97,18 @@
   --color-warm-gold: var(--om-warm-gold);
   --color-text-primary: var(--om-text-primary);
   --color-text-muted: var(--om-text-muted);
+  --color-om-glow: var(--om-glow);
+  --color-om-text-bright: var(--om-text-bright);
+  --color-om-text-secondary: var(--om-text-secondary);
+  --color-om-text-dim: var(--om-text-dim);
+  --color-om-border-subtle: var(--om-border-subtle);
+  --color-om-glass-bg: var(--om-glass-bg);
+  --color-om-glass-bg-hover: var(--om-glass-bg-hover);
+  --color-om-glass-border: var(--om-glass-border);
+  --color-om-glass-icon: var(--om-glass-icon);
+  --color-om-border-faint: var(--om-border-faint);
+  --color-om-glow-faint: var(--om-glow-faint);
+  --color-om-glow-soft: var(--om-glow-soft);
 
   /* Fonts */
   --font-display: var(--font-cormorant);
@@ -75,8 +122,10 @@
   --animate-breathe-hold: breatheHold 2s ease both;
   --animate-breathe-out: breatheOut 6s ease-in-out both;
   --animate-orb-float: orbFloat 20s ease-in-out infinite;
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+
+  /* shadcn font/color/radius tokens */
+  --font-heading: var(--font-cormorant);
+  --font-sans: var(--font-montserrat);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -135,10 +184,127 @@ body {
 }
 
 /* =============================================================================
-   Keyframe Animations
+   Landing Page Utilities
 
-   Defined globally so they can be referenced via Tailwind's animate-* utilities
-   and reused across any component.
+   Inside @layer components so they sit correctly in Tailwind v4's cascade:
+   theme < base < components < utilities
+   This ensures they override base styles but can still be overridden by
+   Tailwind utility classes.
+   ============================================================================= */
+
+@layer components {
+  .om-entrance {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+
+  .om-entrance.is-loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .om-entrance-fade {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+
+  .om-entrance-fade.is-loaded {
+    opacity: 1;
+  }
+
+  .om-title-gradient {
+    background: linear-gradient(
+      180deg,
+      var(--om-text-bright) 0%,
+      var(--om-title-fade) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .om-divider {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--om-border-subtle),
+      transparent
+    );
+  }
+
+  .om-social-link {
+    color: var(--om-link);
+    letter-spacing: 3px;
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+  }
+
+  .om-social-link:hover {
+    color: var(--om-link-hover);
+    letter-spacing: 5px;
+  }
+
+  /* lite-youtube-embed overrides — dark cosmic theme
+     IMPORTANT: Do NOT override ::after — the package uses it for 16:9 aspect
+     ratio via padding-bottom. Use ::before for the gradient overlay instead. */
+  lite-youtube {
+    background-color: var(--om-deep-navy);
+    max-width: 100%;
+  }
+
+  /* Repurpose ::before as gradient overlay instead of the default title bar */
+  lite-youtube::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      var(--om-overlay-dark) 0%,
+      transparent 40%,
+      transparent 60%,
+      var(--om-overlay-dark) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+    /* Reset the package defaults we don't want */
+    height: 100%;
+    padding: 0;
+    font-size: 0;
+    color: transparent;
+    text-shadow: none;
+    background-image: none;
+  }
+
+  lite-youtube > .lty-playbtn {
+    z-index: 2;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--om-glass-bg);
+    border: 1px solid var(--om-glass-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 1;
+    transition: background 0.3s ease;
+  }
+
+  lite-youtube:hover > .lty-playbtn {
+    background: var(--om-glass-bg-hover);
+  }
+
+  lite-youtube > .lty-playbtn::before {
+    border-style: solid;
+    border-width: 9px 0 9px 16px;
+    border-color: transparent transparent transparent var(--om-glass-icon);
+  }
+
+  lite-youtube > .lty-playbtn::after {
+    display: none;
+  }
+}
+
+/* =============================================================================
+   Keyframe Animations
    ============================================================================= */
 
 @keyframes fadeUp {
@@ -208,6 +374,7 @@ body {
   }
 }
 
+/* shadcn dark mode overrides — kept for future use */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -248,8 +415,5 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
   }
 }

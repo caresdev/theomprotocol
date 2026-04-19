@@ -55,9 +55,6 @@ export const metadata: Metadata = {
     description: "A guided meditation practice for the modern mind.",
   },
   manifest: "/manifest.json",
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({

@@ -1,27 +1,35 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 type Phase = "inhale" | "hold" | "exhale";
 
-const SEQUENCE: { phase: Phase; duration: number; label: string }[] = [
-  { phase: "inhale", duration: 4000, label: "Breathe In" },
-  { phase: "hold", duration: 2000, label: "Hold" },
-  { phase: "exhale", duration: 6000, label: "Release" },
+const SEQUENCE: { phase: Phase; duration: number }[] = [
+  { phase: "inhale", duration: 4000 },
+  { phase: "hold", duration: 2000 },
+  { phase: "exhale", duration: 6000 },
 ];
 
-export default function BreathingOrb() {
+const PHASE_LABEL: Record<Phase, string> = {
+  inhale: "Breathe In",
+  hold: "Hold",
+  exhale: "Release",
+};
+
+const MAX_CYCLES = 3;
+
+interface BreathingOrbProps {
+  onComplete: () => void;
+}
+
+export default function BreathingOrb({ onComplete }: BreathingOrbProps) {
   const [phase, setPhase] = useState<Phase>("inhale");
   const [count, setCount] = useState(4);
-
-  const getTransition = useCallback((p: Phase) => {
-    if (p === "inhale") return "transform 4s ease-in-out";
-    if (p === "hold") return "transform 0.3s";
-    return "transform 6s ease-in-out";
-  }, []);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
     let idx = 0;
+    let cycle = 0;
     let timer: ReturnType<typeof setTimeout>;
     let countTimer: ReturnType<typeof setInterval>;
 
@@ -39,6 +47,16 @@ export default function BreathingOrb() {
       timer = setTimeout(() => {
         clearInterval(countTimer);
         idx = (idx + 1) % SEQUENCE.length;
+
+        if (idx === 0) {
+          cycle++;
+          if (cycle >= MAX_CYCLES) {
+            setFading(true);
+            timer = setTimeout(() => onComplete(), 1000);
+            return;
+          }
+        }
+
         run();
       }, current.duration);
     };
@@ -48,42 +66,42 @@ export default function BreathingOrb() {
       clearTimeout(timer);
       clearInterval(countTimer);
     };
-  }, []);
+  }, [onComplete]);
 
   const scale = phase === "exhale" ? "scale(0.65)" : "scale(1)";
+  const transition =
+    phase === "inhale"
+      ? "transform 4s ease-in-out"
+      : phase === "hold"
+        ? "transform 0.3s"
+        : "transform 6s ease-in-out";
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div
+      className="flex flex-col items-center gap-4 transition-opacity duration-1000"
+      style={{ opacity: fading ? 0 : 1 }}
+    >
       <div
-        className="flex items-center justify-center rounded-full"
+        className="flex items-center justify-center rounded-full border border-om-border-subtle"
         style={{
           width: 100,
           height: 100,
-          border: "1px solid rgba(100, 150, 255, 0.2)",
           background:
-            "radial-gradient(circle, rgba(100,150,255,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, var(--om-glow-soft) 0%, transparent 70%)",
           transform: scale,
-          transition: getTransition(phase),
+          transition,
         }}
       >
         <span
-          className="font-display font-light"
-          style={{
-            fontSize: 24,
-            color: "rgba(180, 210, 255, 0.6)",
-          }}
+          className="font-display text-2xl font-light text-om-text-secondary"
         >
           {count}
         </span>
       </div>
       <span
-        className="font-body text-[13px] font-normal uppercase"
-        style={{
-          letterSpacing: 4,
-          color: "rgba(180, 210, 255, 0.35)",
-        }}
+        className="font-body text-[13px] font-normal uppercase tracking-[4px] text-om-text-dim"
       >
-        {SEQUENCE.find((s) => s.phase === phase)?.label}
+        {PHASE_LABEL[phase]}
       </span>
     </div>
   );
