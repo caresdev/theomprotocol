@@ -166,9 +166,9 @@ export default function CosmicCanvas() {
         ctx.fill();
       }
 
-      // Sacred geometry rings — centered on header area (upper ~25%)
+      // Sacred geometry rings 
       const rcx = w * 0.5;
-      const rcy = h * 0.22;
+      const rcy = h * 0.15;
       const baseSize = Math.min(w, h);
       for (let i = 0; i < RINGS.length; i++) {
         const ringPulse = (Math.sin(elapsed * 0.5 + i * 0.8) + 1) / 2;

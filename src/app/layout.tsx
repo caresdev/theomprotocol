@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   ),
   openGraph: {
     title: "The OM Protocol",
-    description: "A guided meditation practice for the modern mind.",
+    description: "A guided meditation practice for the modern mind. Rooted in ancient frequencies. Powered by intention.",
     siteName: "The OM Protocol",
     locale: "en_US",
     type: "website",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "The OM Protocol",
-    description: "A guided meditation practice for the modern mind.",
+    description: "A guided meditation practice for the modern mind. Rooted in ancient frequencies. Powered by intention.",
   },
   manifest: "/manifest.json",
 };

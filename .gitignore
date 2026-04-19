@@ -36,8 +36,8 @@ yarn-error.log*
 # Except for .env.example
 !.env.example
 
-# vercel
-.vercel
+# netlify
+.netlify
 
 # typescript
 *.tsbuildinfo

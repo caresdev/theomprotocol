@@ -15,7 +15,7 @@
   ![Build](https://img.shields.io/github/actions/workflow/status/gleicipereira/theomprotocol/ci.yml?branch=main&style=flat-square)
   ![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square&logo=typescript&logoColor=white)
   ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
-  ![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-black?style=flat-square&logo=vercel&logoColor=white)
+  ![Netlify](https://img.shields.io/badge/deployed%20on-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
 
 </div>
 
@@ -32,7 +32,7 @@
 - **Audio:** Tone.js (real-time audio synthesis)
 - **Animations:** Framer Motion + HTML Canvas
 - **PWA:** Serwist (offline-first, installable)
-- **Hosting:** Vercel
+- **Hosting:** Netlify
 
 ## Getting Started
 
